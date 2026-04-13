@@ -16,25 +16,27 @@ import { personas } from './personas'
  * 
  */
 
-console.log('Listado Original:', personas)
+import {personas} from "./personas.js";
 
-const agrupaPersonas = (listaPersonas) => {
-    return listaPersonas.reduce((grupo, persona) => {
+const agregarNombreCompleto = (personas)=>{
+    return personas.map((persona) => {
+        let nombreCompleto = persona.lastName + " "+ persona.firstName;
+        return {...persona,
+            nombreCompleto
+        };
+    });
+};
 
-        console.log(grupo, persona, persona.firstName[0])
-        const primeraLetra = persona.firstName[0]
-
-        if(!(primeraLetra in grupo)){
-
-            grupo[primeraLetra] = []
-        }
-
-        grupo[primeraLetra].push(persona)
-
-        return {
-            ...grupo
-        }
-    }, {})
+const agrupaContactos = (personas) => {
+    return personas.reduce((acc, persona) => {
+       let lastname = persona.lastName;
+        let letra = lastname[0];
+        if(acc [letra] == null){
+            acc[letra] = [];
+        } 
+        acc[letra].push({nombreCompleto: persona.lastName+", "+persona.firstName, ...persona});
+   return acc;
+    })
 }
 
 const agrupaPersonas2 = (listaPersonas) => {
