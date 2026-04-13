@@ -24,3 +24,6 @@ const filtraPersonas = (listaPersonas) => {
 
 const personasFiltradas = filtraPersonas(personas)
 console.table(personasFiltradas)
+let personasAptasCasino = personas.filter(personas => personas.age > EDAD_MINIMA);
+//consigna dice >21 pero entiendo que los de >= de 21 deberian poder entrar, por las dudas lo puse como en la consigna
+console.log(personasAptasCasino);
