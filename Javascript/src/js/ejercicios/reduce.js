@@ -86,7 +86,7 @@ console.table(listaFinal2)
  */
 import {personas} from "./personas.js";
 
-const agregarNombreCompleto = (personas)=>{
+/* const agregarNombreCompleto = (personas)=>{
     return personas.map((persona) => {
         let nombreCompleto = persona.lastName + " "+ persona.firstName;
         return {...persona,
@@ -94,7 +94,7 @@ const agregarNombreCompleto = (personas)=>{
         };
     });
 };
-
+ */
 const agrupaContactos = (personas) => {
     return personas.reduce((acc, persona) => {
        let lastname = persona.lastName;
