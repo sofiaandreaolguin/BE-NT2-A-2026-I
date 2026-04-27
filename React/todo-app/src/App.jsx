@@ -75,8 +75,11 @@ const [tareas, setTareas] = useState([
                 &ldquo;Focus is the art of saying no.&rdquo;
               </p>
               <p className="text-on-primary/80 text-sm">Steve Jobs</p>
-            </div>
-          </li> */}
+          </div>
+          </div>
+          </section>
+          
+          
           {tareas.map(t => (
           <TodoItem 
             key={t.id} 
