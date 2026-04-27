@@ -1,86 +1,63 @@
+import './App.css'
 import { useState } from 'react'
-
-import Counters from './components/counters/counters'
-import QuickAdd from './components/quick-add/quick-add'
-import EmptyState from './components/empty-state/empty-state'
-import Task from './components/task/task'
+import TodoItem from './components/TodoItem'
 
 function App() {
 
-  const [tasks, setTasks] = useState([
-    // {
-    //   id: 1,
-    //   title: 'Task 1',
-    //   completed: false,
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Task 2',
-    //   completed: false,
-    // },
-    // {
-    //   id: 3,
-    //   title: 'Task 3',
-    //   completed: true,
-    // }
-  ])
+const [tareas, setTareas] = useState([
+    { id: 1, texto: ' lol', completada: false },
+    { id: 2, texto: 'Revisar correo', completada: false }
+  ]);
 
-  const addTask = (task) => {
-    setTasks([...tasks, task])
-  }
+  // LÓGICA 1: Eliminar
+  const eliminarTarea = (id) => {
+    const nuevasTareas = tareas.filter(t => t.id !== id);
+    setTareas(nuevasTareas);
+  };
 
-  const updateTask = (id, task) => {
-    setTasks(tasks.map((item) => item.id === id ? task : item))
-  }
+  // LÓGICA 2: Marcar como completada/pendiente
+  const toggleTarea = (id) => {
+    const tareasActualizadas = tareas.map(t => 
+      t.id === id ? { ...t, completada: !t.completada } : t
+    );
+    setTareas(tareasActualizadas);
+  };
 
-  const deleteTask = (id) => {
-    setTasks(tasks.filter(item => item.id !== id))
-  }
+  // LÓGICA 3: Cálculos para los contadores
+  const total = tareas.length;
+  const completadas = tareas.filter(t => t.completada).length;
 
-  const isEmpty = tasks.length === 0
 
   return (
-    <div className="bg-surface text-on-surface min-h-screen pb-8">
-      <main className="pt-6 px-6 max-w-5xl mx-auto">
-        {/* Dashboard Summary Header */}
-        <section className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-4xl font-extrabold text-on-surface tracking-tight mb-2">
-                Good morning.
-              </h1>
-              <p className="text-on-surface-variant font-body text-lg">
-                Your focus is your most valuable asset.
-              </p>
-            </div>
-            {/* Stats Bento Grid-ish Layout */}
-            <Counters tasks={tasks} />
-          </div>
-        </section>
+    <>
+      <div className="container center">
+        <h1 className="center title">TO-DO App</h1>
 
-        {/* Quick Add Section */}
-        <QuickAdd handleAddTask={addTask} />
-        {/* Task List Area */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold text-on-surface px-2">List of Tasks</h2>
-            <div className="flex gap-2">
-              <span className="bg-surface-container-high text-on-surface-variant text-xs px-3 py-1 rounded-full font-semibold">
-                Priority
-              </span>
-              <span className="bg-surface-container-low text-on-surface-variant text-xs px-3 py-1 rounded-full font-semibold">
-                Timeline
-              </span>
-            </div>
-          </div>
+        <div className="todo-stats" role="status" aria-live="polite">
+          <span>Total de tareas: {total}</span>
+          <span>Tareas completadas: {completadas}</span>
+        </div>
+        <div className="controls flow-right">
+          <input type="text" placeholder="Nueva tarea" aria-label="Título de la tarea" />
+          <button type="button" className="button">
+            Agregar
+          </button>
+        </div>
 
-          {isEmpty ? <EmptyState /> : (
-            <div className="space-y-4">
-              {
-                tasks.map((task) => ( 
-                  <Task key={task.id} task={task} handleUpdateTask={updateTask} handleDelete={deleteTask} />
-                ))
-              }
+
+        <ul id="todoList" className="todo-list">
+         {/*  <li className="todo-container" data-id="1">
+            <div className="flow-right">
+              <input
+                type="checkbox"
+                className="todo-checkbox"
+                defaultChecked
+                aria-label="Completada: xd leche"
+              />
+              <span>Comprar leche</span>
+              <button type="button" className="button todo-delete">
+                Eliminar
+              </button>
             </div>
           )}
         </section>
@@ -99,25 +76,21 @@ function App() {
               </p>
               <p className="text-on-primary/80 text-sm">Steve Jobs</p>
             </div>
-          </div>
-          <div className="bg-secondary-container p-8 rounded-[32px] flex flex-col justify-center items-center text-center">
-            <span className="material-symbols-outlined text-4xl text-on-secondary-container mb-4">
-              auto_awesome
-            </span>
-            <h4 className="text-on-secondary-container font-bold mb-2">Weekly Summary</h4>
-            <p className="text-on-secondary-container/70 text-sm">
-              You were 15% more productive than last week.
-            </p>
-          </div>
-        </section>
-      </main>
-
-      {/* Contextual FAB */}
-      <button className="fixed bottom-8 right-8 bg-gradient-to-br from-primary to-primary-container text-on-primary w-14 h-14 rounded-2xl flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all md:hidden">
-        <span className="material-symbols-outlined">add</span>
-      </button>
-    </div>
-  )
+          </li> */}
+          {tareas.map(t => (
+          <TodoItem 
+            key={t.id} 
+            tarea={t} 
+            onDelete={eliminarTarea} 
+            onToggle={toggleTarea} 
+          />
+        ))}
+          
+        </ul>
+      </div>
+    </>
+  
+)
 }
 
 export default App;
